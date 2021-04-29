@@ -7,6 +7,7 @@ function Item(props) {
       />
       <h2>{props.name}</h2>
       <div className="price">${props.price}</div>
+  <div className="stock">{props.stock > 0 ? "Stock: " + props.stock : "OUT OF STOCK"}</div>
       <div className="description">{props.desc}</div>
       <button onClick={props.add}>Add to Cart</button>
     </li>

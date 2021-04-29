@@ -22,6 +22,7 @@ class App extends Component {
     const item = this.state.items.find(cartItem => cartItem.id === parseInt(e.target.closest('li').dataset.id));
     const cartItem = this.state.cartItems.find(cartItem => cartItem.id === parseInt(e.target.closest('li').dataset.id));
     if (cartItem !== undefined) {
+      if (cartItem.quantity >= item.stock) return;
       this.setState((state, props) => ({
         cartItems: state.cartItems.map(curItem => {
           if (curItem === cartItem) {
@@ -31,6 +32,7 @@ class App extends Component {
         })
       }))
     } else {
+      if (item.stock === 0) return;
       this.setState((state, props) => ({
         cartItems: [...state.cartItems,
           {
@@ -99,6 +101,7 @@ class App extends Component {
                 name={item.name}
                 price={item.price}
                 add={this.addItem}
+                stock={item.stock}
               />
             ))}
           </ul>
