@@ -31,6 +31,10 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
+  position: sticky;
+  width: 100%;
+  z-index: 1;
+  top: 0;
 }
 
 ul {

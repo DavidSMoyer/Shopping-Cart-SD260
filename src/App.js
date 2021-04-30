@@ -13,9 +13,9 @@ class App extends Component {
   }
 
   componentDidMount = async () => {
-    const request = await fetch('https://5ed0108416017c00165e327c.mockapi.io/api/v1/items/');
+    const request = await fetch('https://mitt-react-project-default-rtdb.firebaseio.com/items.json');
     const items = await request.json();
-    this.setState({items});
+    this.setState({ items });
   }
 
   addItem = (e) => {
@@ -26,7 +26,7 @@ class App extends Component {
       this.setState((state, props) => ({
         cartItems: state.cartItems.map(curItem => {
           if (curItem === cartItem) {
-            return {...curItem, quantity: curItem.quantity + 1};
+            return { ...curItem, quantity: curItem.quantity + 1 };
           }
           return curItem;
         })
@@ -35,12 +35,12 @@ class App extends Component {
       if (item.stock === 0) return;
       this.setState((state, props) => ({
         cartItems: [...state.cartItems,
-          {
-            id: item.id,
-            name: item.name,
-            quantity: 1,
-            price: item.price
-          }
+        {
+          id: item.id,
+          name: item.name,
+          quantity: 1,
+          price: item.price
+        }
         ]
       }))
     }
@@ -48,25 +48,23 @@ class App extends Component {
 
   removeItem = (e) => {
     const cartItem = this.state.cartItems.find(cartItem => cartItem.id === parseInt(e.target.closest('li').dataset.id));
-    if (cartItem !== undefined) {
-      this.setState(state => ({
-        cartItems: state.cartItems.map(item => {
-          if (item.id === cartItem.id) {
-            return {...cartItem, quantity: item.quantity - 1}
-          }
-          return item;
-        }).filter(item => item.quantity > 0)
-      }))
-    }
+    if (cartItem === undefined) return;
+    this.setState(state => ({
+      cartItems: state.cartItems.map(item => {
+        if (item.id === cartItem.id) {
+          return { ...cartItem, quantity: item.quantity - 1 }
+        }
+        return item;
+      }).filter(item => item.quantity > 0)
+    }))
   }
 
   clearItem = (e) => {
     const cartItem = this.state.cartItems.find(cartItem => cartItem.id === parseInt(e.target.closest('li').dataset.id));
-    if (cartItem !== undefined) {
-      this.setState(state => ({
-        cartItems: state.cartItems.filter(item => item.id !== cartItem.id)
-      }))
-    }
+    if (cartItem === undefined) return;
+    this.setState(state => ({
+      cartItems: state.cartItems.filter(item => item.id !== cartItem.id)
+    }))
   }
 
   totalPrice = () => {
